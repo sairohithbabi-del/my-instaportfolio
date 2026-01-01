@@ -1,4 +1,5 @@
 import { ChevronDown } from "lucide-react";
+import logo from "@/assets/logo.webp";
 
 const Hero = () => {
   const scrollToAbout = () => {
@@ -32,11 +33,19 @@ const Hero = () => {
           </span>
         </div>
 
+        <div className="opacity-0 animate-fade-in mb-6" style={{ animationDelay: "0.3s" }}>
+          <img 
+            src={logo} 
+            alt="Mad Did It Logo" 
+            className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full border-4 border-primary/30 shadow-2xl hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+
         <h1 
           className="text-6xl md:text-8xl lg:text-9xl font-bold mb-6 tracking-tight opacity-0 animate-fade-in"
-          style={{ animationDelay: "0.4s", fontFamily: "Bebas Neue, Impact, sans-serif" }}
+          style={{ animationDelay: "0.5s", fontFamily: "Bebas Neue, Impact, sans-serif" }}
         >
-          <span className="text-gradient">MADDIDIT</span>
+          <span className="text-gradient">MAD DID IT</span>
         </h1>
 
         <p 
