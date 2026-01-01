@@ -1,11 +1,40 @@
-import { Sparkles, Video, Edit3 } from "lucide-react";
+import { Sparkles, Video, Edit3, Bot, Users } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const About = () => {
+  const [visibleRoles, setVisibleRoles] = useState<number[]>([]);
+  
+  const roles = [
+    { icon: Edit3, label: "Professional Editor" },
+    { icon: Users, label: "Influencer" },
+    { icon: Bot, label: "AI Web Developer" },
+  ];
+
   const skills = [
     { icon: Video, label: "Video Editing", description: "Cinematic edits that tell stories" },
     { icon: Edit3, label: "Content Creation", description: "Eye-catching reels & posts" },
     { icon: Sparkles, label: "Visual Effects", description: "Creative transitions & effects" },
   ];
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          roles.forEach((_, index) => {
+            setTimeout(() => {
+              setVisibleRoles((prev) => [...prev, index]);
+            }, index * 300);
+          });
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    const section = document.getElementById("about");
+    if (section) observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section id="about" className="py-24 px-4 relative">
@@ -24,6 +53,26 @@ const About = () => {
               Hi, I'm{" "}
               <span className="text-gradient">Rohit</span>
             </h2>
+
+            {/* Animated Roles */}
+            <div className="flex flex-wrap gap-3">
+              {roles.map((role, index) => (
+                <div
+                  key={role.label}
+                  className={`flex items-center gap-2 px-4 py-2 bg-card rounded-full border border-border transition-all duration-500 ${
+                    visibleRoles.includes(index)
+                      ? "opacity-100 scale-100 translate-y-0"
+                      : "opacity-0 scale-75 translate-y-4"
+                  }`}
+                  style={{
+                    transitionDelay: `${index * 100}ms`,
+                  }}
+                >
+                  <role.icon className="w-4 h-4 text-primary" />
+                  <span className="font-medium text-sm">{role.label}</span>
+                </div>
+              ))}
+            </div>
             
             <p className="text-lg text-muted-foreground leading-relaxed">
               I'm a professional editor and creator with a passion for transforming raw content into 
