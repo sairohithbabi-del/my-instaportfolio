@@ -1,7 +1,18 @@
 import { ChevronDown } from "lucide-react";
+import { useState, useEffect } from "react";
 import logo from "@/assets/logo.webp";
 
 const Hero = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const titles = ["EDITOR", "AI WEB DEVELOPER", "INFLUENCER", "CREATOR"];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % titles.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
+
   const scrollToAbout = () => {
     document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -48,16 +59,41 @@ const Hero = () => {
           <span className="text-gradient">MAD DID IT</span>
         </h1>
 
+        {/* Animated sliding titles */}
+        <div 
+          className="h-16 md:h-24 overflow-hidden opacity-0 animate-fade-in mb-8"
+          style={{ animationDelay: "0.6s" }}
+        >
+          <div 
+            className="transition-transform duration-700 ease-out"
+            style={{ transform: `translateY(-${currentIndex * 100}%)` }}
+          >
+            {titles.map((title, index) => (
+              <div
+                key={title}
+                className="h-16 md:h-24 flex items-center justify-center"
+              >
+                <span 
+                  className="text-4xl md:text-6xl lg:text-7xl font-bold text-primary"
+                  style={{ fontFamily: "Bebas Neue, Impact, sans-serif" }}
+                >
+                  {title}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <p 
           className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-12 opacity-0 animate-fade-in"
-          style={{ animationDelay: "0.6s" }}
+          style={{ animationDelay: "0.7s" }}
         >
           Transforming ideas into <span className="text-primary font-semibold">stunning visuals</span> that captivate and inspire
         </p>
 
         <div 
           className="flex flex-wrap gap-4 justify-center opacity-0 animate-fade-in"
-          style={{ animationDelay: "0.8s" }}
+          style={{ animationDelay: "0.9s" }}
         >
           <a
             href="https://instagram.com/rohith_xd_0"
