@@ -4,12 +4,12 @@ import logo from "@/assets/logo.webp";
 
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const titles = ["EDITOR", "AI WEB DEVELOPER", "INFLUENCER", "CREATOR"];
+  const titles = ["EDITOR", "AI WEB DEVELOPER", "INFLUENCER"];
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % titles.length);
-    }, 2500);
+    }, 2000);
     return () => clearInterval(interval);
   }, []);
 
@@ -53,35 +53,33 @@ const Hero = () => {
         </div>
 
         <h1 
-          className="text-6xl md:text-8xl lg:text-9xl font-bold mb-6 tracking-tight opacity-0 animate-fade-in"
+          className="text-6xl md:text-8xl lg:text-9xl font-bold mb-4 tracking-tight opacity-0 animate-fade-in"
           style={{ animationDelay: "0.5s", fontFamily: "Bebas Neue, Impact, sans-serif" }}
         >
           <span className="text-gradient">MAD DID IT</span>
         </h1>
 
-        {/* Animated sliding titles */}
+        {/* Clean rotating title */}
         <div 
-          className="h-16 md:h-24 overflow-hidden opacity-0 animate-fade-in mb-8"
+          className="h-14 md:h-20 flex items-center justify-center opacity-0 animate-fade-in mb-8"
           style={{ animationDelay: "0.6s" }}
         >
-          <div 
-            className="transition-transform duration-700 ease-out"
-            style={{ transform: `translateY(-${currentIndex * 100}%)` }}
-          >
-            {titles.map((title, index) => (
-              <div
-                key={title}
-                className="h-16 md:h-24 flex items-center justify-center"
-              >
-                <span 
-                  className="text-4xl md:text-6xl lg:text-7xl font-bold text-primary"
-                  style={{ fontFamily: "Bebas Neue, Impact, sans-serif" }}
-                >
-                  {title}
-                </span>
-              </div>
-            ))}
-          </div>
+          {titles.map((title, index) => (
+            <span
+              key={title}
+              className={`absolute text-3xl md:text-5xl lg:text-6xl font-bold transition-all duration-500 ${
+                index === currentIndex
+                  ? "opacity-100 translate-y-0 scale-100"
+                  : "opacity-0 -translate-y-8 scale-95"
+              }`}
+              style={{ 
+                fontFamily: "Bebas Neue, Impact, sans-serif",
+                color: "hsl(var(--primary))"
+              }}
+            >
+              {title}
+            </span>
+          ))}
         </div>
 
         <p 
