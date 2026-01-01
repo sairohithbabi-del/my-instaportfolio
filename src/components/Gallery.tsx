@@ -5,20 +5,21 @@ interface GalleryItem {
   id: number;
   title: string;
   category: string;
-  placeholder: string;
+  type: "image" | "video";
+  src?: string;
+  placeholder?: string;
 }
 
 const Gallery = () => {
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
 
-  // Placeholder gallery items - user can replace with actual images
   const galleryItems: GalleryItem[] = [
-    { id: 1, title: "Cinematic Edit", category: "Video Edit", placeholder: "🎬" },
-    { id: 2, title: "Reel Transition", category: "Reels", placeholder: "✨" },
-    { id: 3, title: "Color Grade", category: "Video Edit", placeholder: "🎨" },
-    { id: 4, title: "Motion Graphics", category: "Effects", placeholder: "💫" },
-    { id: 5, title: "Instagram Post", category: "Social", placeholder: "📱" },
-    { id: 6, title: "Thumbnail Design", category: "Design", placeholder: "🖼️" },
+    { id: 1, title: "Cinematic Edit", category: "Video Edit", type: "video", src: "/videos/edit-sample-1.mp4" },
+    { id: 2, title: "Reel Transition", category: "Reels", type: "image", placeholder: "✨" },
+    { id: 3, title: "Color Grade", category: "Video Edit", type: "image", placeholder: "🎨" },
+    { id: 4, title: "Motion Graphics", category: "Effects", type: "image", placeholder: "💫" },
+    { id: 5, title: "Instagram Post", category: "Social", type: "image", placeholder: "📱" },
+    { id: 6, title: "Thumbnail Design", category: "Design", type: "image", placeholder: "🖼️" },
   ];
 
   return (
@@ -46,10 +47,22 @@ const Gallery = () => {
               className="group relative aspect-square bg-card rounded-2xl border border-border overflow-hidden cursor-pointer hover:border-primary/50 transition-all duration-300 hover:scale-[1.02] hover:glow"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              {/* Placeholder content - replace with actual images */}
-              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-muted to-background">
-                <span className="text-6xl">{item.placeholder}</span>
-              </div>
+              {/* Content - video or placeholder */}
+              {item.type === "video" && item.src ? (
+                <video 
+                  src={item.src}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  muted
+                  loop
+                  playsInline
+                  onMouseEnter={(e) => e.currentTarget.play()}
+                  onMouseLeave={(e) => { e.currentTarget.pause(); e.currentTarget.currentTime = 0; }}
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-muted to-background">
+                  <span className="text-6xl">{item.placeholder}</span>
+                </div>
+              )}
 
               {/* Hover overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -96,8 +109,18 @@ const Gallery = () => {
               <X className="w-6 h-6" />
             </button>
             
-            <div className="aspect-video flex items-center justify-center bg-gradient-to-br from-muted to-background">
-              <span className="text-9xl">{selectedItem.placeholder}</span>
+            <div className="aspect-video flex items-center justify-center bg-gradient-to-br from-muted to-background overflow-hidden">
+              {selectedItem.type === "video" && selectedItem.src ? (
+                <video 
+                  src={selectedItem.src}
+                  className="w-full h-full object-contain"
+                  controls
+                  autoPlay
+                  loop
+                />
+              ) : (
+                <span className="text-9xl">{selectedItem.placeholder}</span>
+              )}
             </div>
             
             <div className="p-6">
